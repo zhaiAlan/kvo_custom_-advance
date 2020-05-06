@@ -14,6 +14,10 @@ static NSString *const kXZKVOPrefix = @"XZKVONotifying_";
 static NSString *const kXZKVOAssiociateKey = @"kXZKVO_AssiociateKey";
 
 @implementation NSObject (XZKVO)
+- (void)xz_observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context
+{
+    
+}
 - (void)xz_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath
 {
     NSMutableArray *observerArr = objc_getAssociatedObject(self, (__bridge const void * _Nonnull)(kXZKVOAssiociateKey));
@@ -148,6 +152,8 @@ static void xz_setter(id self,SEL _cmd,id newValue){
                     }
                 }
                 SEL observerSel = @selector(observeValueForKeyPath:ofObject:change:context:);
+                //如果要到自己的监听方法，这里可以直接修改
+               // SEL xz_observerSel = @selector(xz_observeValueForKeyPath:ofObject:change:context:);
                 objc_msgSend(info.observer,observerSel,keyPath,self,change,NULL);
             });
             
